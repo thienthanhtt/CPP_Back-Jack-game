@@ -159,7 +159,7 @@ void outputDeck(Card*& deck, int n)
 int point(Card* player, int n)
 {
 	int total = 0, countAce = 0;
-	 
+
 	for (int i = 0; i < n; i++)
 		if (player[i].value > 10 && player[i].value < 14)
 			total += 10;
@@ -168,18 +168,18 @@ int point(Card* player, int n)
 		else
 			total += player[i].value;
 
-		while (countAce > 0)
-		{
-			if (total > 11)
-				total += 1;
-			else if (total < 11)
-				total += 11;
-			else
-				total += 10;
+	while (countAce > 0)
+	{
+		if (total > 11)
+			total += 1;
+		else if (total < 11)
+			total += 11;
+		else
+			total += 10;
 
-			countAce--;
-		}
-		
+		countAce--;
+	}
+
 	return total;
 }
 
@@ -267,7 +267,7 @@ int main()
 	shuffleDeck(deck);
 
 	cout << "Nhap so luong nguoi choi: ";
-	input:	cin >> p;
+input:	cin >> p;
 	if (p <= 0 || p > MAX)
 		goto input;
 
@@ -306,14 +306,22 @@ int main()
 
 			if (select == 1)
 			{
-				player[i].n++;
-				player[i].cards[player[i].n - 1] = deck[n - 1];
-				drawCard(deck, n, player[i].cards[player[i].n - 1]);
-				cout << "+--------------------------------+\n";
-				for (int j = 0; j < player[i].n; j++)
-					cout << "\tLa thu " << j + 1 << ": " << getCard(player[i].cards[j]) << endl;
-				cout << "+--------------------------------+\n";
-				cout << "Diem hien tai: " << point(player[i].cards, player[i].n) << endl;
+				if (player[i].n >= 5)
+				{
+					cout << "Khong the rut tiep!";
+					break;
+				}
+				else
+				{
+					player[i].n++;
+					player[i].cards[player[i].n - 1] = deck[n - 1];
+					drawCard(deck, n, player[i].cards[player[i].n - 1]);
+					cout << "+--------------------------------+\n";
+					for (int j = 0; j < player[i].n; j++)
+						cout << "\tLa thu " << j + 1 << ": " << getCard(player[i].cards[j]) << endl;
+					cout << "+--------------------------------+\n";
+					cout << "Diem hien tai: " << point(player[i].cards, player[i].n) << endl;
+				}
 			}
 		} while (select == 1);
 		cout << "Sau khi nho bai cua minh vui long nhan phim bat ky (tru phim enter va space) de tiep tuc ";
@@ -344,20 +352,28 @@ int main()
 
 		if (select == 1)
 		{
-			player[p].n++;
-			player[p].cards[player[p].n - 1] = deck[n - 1];
-			drawCard(deck, n, player[p].cards[player[p].n - 1]);
-			cout << "+--------------------------------+\n";
-			for (int j = 0; j < player[p].n; j++)
-				cout << "\tLa thu " << j + 1 << ": " << getCard(player[p].cards[j]) << endl;
-			cout << "+--------------------------------+\n";
-			cout << "Diem hien tai: " << point(player[p].cards, player[p].n) << endl;
+			if (player[p].n >= 5)
+			{
+				cout << "Khong the rut tiep!";
+				break;
+			}
+			else
+			{
+				player[p].n++;
+				player[p].cards[player[p].n - 1] = deck[n - 1];
+				drawCard(deck, n, player[p].cards[player[p].n - 1]);
+				cout << "+--------------------------------+\n";
+				for (int j = 0; j < player[p].n; j++)
+					cout << "\tLa thu " << j + 1 << ": " << getCard(player[p].cards[j]) << endl;
+				cout << "+--------------------------------+\n";
+				cout << "Diem hien tai: " << point(player[p].cards, player[p].n) << endl;
+			}
 		}
 	} while (select == 1);
 
 	//----------- KET QUA --------
 
-	cout << "\t*** KET QUA ***\n";
+	cout << "\n\t*** KET QUA ***\n";
 	for (int i = 0; i < p; i++)
 		cout << "Nguoi choi thu " << i + 1 << ": " << point(player[i].cards, player[i].n) << " diem => " << status_(player[i].cards, player[i].n) << endl;
 	cout << "Nha cai: " << point(player[p].cards, player[p].n) << " diem => " << status_(player[p].cards, player[p].n) << endl;
